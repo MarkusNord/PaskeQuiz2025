@@ -2,6 +2,8 @@
 const puzzles = ['puzzle1','puzzle2','puzzle3','puzzle4','puzzle5','puzzle6','puzzle7','puzzle8','puzzle9','puzzle10'];
 let current = 0;
 let hintTimer;
+let panicInterval;
+let panicRemaining;
 let username = localStorage.getItem('username') || '';
 let progress = parseInt(localStorage.getItem('progress')) || 0;
 
@@ -15,9 +17,18 @@ function updateHeader() {
   document.getElementById('progress').textContent = (progress + 1) + '/' + puzzles.length;
 }
 
+// helper to format seconds as MM:SS
+function formatTime(sec) {
+  const m = String(Math.floor(sec/60)).padStart(2,'0');
+  const s = String(sec%60).padStart(2,'0');
+  return `${m}:${s}`;
+}
+
 // Helper views
 function showStart() {
   clearTimeout(hintTimer);
+  clearInterval(panicInterval);
+  document.getElementById('panic-btn').style.display = 'none';
   // show start, hide game and puzzles and end
   document.getElementById('start-screen').style.display = 'flex';
   document.getElementById('game-header').style.display = 'none';
@@ -29,6 +40,8 @@ function showStart() {
 
 function showEnd() {
   clearTimeout(hintTimer);
+  clearInterval(panicInterval);
+  document.getElementById('panic-btn').style.display = 'none';
   // hide start, game, puzzles, show end
   document.getElementById('start-screen').style.display = 'none';
   document.getElementById('game-header').style.display = 'none';
@@ -41,6 +54,23 @@ function showEnd() {
 // Refactor showPuzzle to focus only on puzzles
 function showPuzzle(id) {
   clearTimeout(hintTimer);
+  clearInterval(panicInterval);
+  // setup Panic countdown
+  const panicBtn = document.getElementById('panic-btn');
+  panicRemaining = 300; // 5 minutes
+  panicBtn.disabled = true;
+  panicBtn.style.display = 'inline-block';
+  panicBtn.textContent = `Panic! Skip in ${formatTime(panicRemaining)}`;
+  panicInterval = setInterval(() => {
+    panicRemaining -= 1;
+    if (panicRemaining > 0) {
+      panicBtn.textContent = `Panic! Skip in ${formatTime(panicRemaining)}`;
+    } else {
+      panicBtn.textContent = 'Panic! Skip puzzle';
+      panicBtn.disabled = false;
+      clearInterval(panicInterval);
+    }
+  }, 1000);
   // show game UI containers
   document.getElementById('start-screen').style.display = 'none';
   document.getElementById('game-header').style.display = 'flex';
@@ -58,6 +88,9 @@ function showPuzzle(id) {
 
 // Initialize on load
 document.addEventListener('DOMContentLoaded', () => {
+  // Panic button listener to skip puzzle
+  const panicBtn = document.getElementById('panic-btn');
+  panicBtn.addEventListener('click', () => nextPuzzle());
   // remove initial hidden classes to allow inline display control
   ['game-header','app','end-screen'].forEach(id => document.getElementById(id).classList.remove('hidden'));
   showStart();
@@ -414,15 +447,31 @@ logchain://reset_handler (UNSTABLE)
 // Puzzle 10: Sliding puzzle
 function initPuzzle10() {
   const container = document.querySelector('.slider-puzzle');
+  // only 8 pieces; bottom-right is empty
   const pieces = [
-    'assets/images/egg_left_top.png','assets/images/egg_left_mid.png','assets/images/egg_left_bottom.png',
-    'assets/images/egg_mid_top.png','assets/images/egg_mid_center.png','assets/images/egg_mid_bottom.png',
-    'assets/images/egg_right_top.png','assets/images/egg_right_mid.png','assets/images/egg_right_bottom.png'
+    'assets/images/egg_left_top.png', 'assets/images/egg_mid_top.png', 'assets/images/egg_right_top.png',
+    'assets/images/egg_left_mid.png', 'assets/images/egg_mid_center.png', 'assets/images/egg_right_mid.png',
+    'assets/images/egg_left_bottom.png', 'assets/images/egg_mid_bottom.png'
   ];
-  let grid = pieces.slice();
-  grid.push(null);
-  // shuffle
-  grid.sort(() => Math.random() - 0.5);
+  let grid;
+  // generate a solvable shuffle by random valid moves
+  function shuffle() {
+    grid = pieces.slice();
+    grid.push(null);
+    let emptyIndex = grid.indexOf(null);
+    for (let k = 0; k < 100; k++) {
+      const row = Math.floor(emptyIndex / 3), col = emptyIndex % 3;
+      const moves = [];
+      if (row > 0) moves.push(emptyIndex - 3);
+      if (row < 2) moves.push(emptyIndex + 3);
+      if (col > 0) moves.push(emptyIndex - 1);
+      if (col < 2) moves.push(emptyIndex + 1);
+      const swapIdx = moves[Math.floor(Math.random() * moves.length)];
+      [grid[emptyIndex], grid[swapIdx]] = [grid[swapIdx], grid[emptyIndex]];
+      emptyIndex = swapIdx;
+    }
+  }
+  shuffle();
 
   function render() {
     container.innerHTML = '';
@@ -447,18 +496,22 @@ function initPuzzle10() {
       if (Math.abs(row - er) + Math.abs(col - ec) === 1) {
         [grid[i], grid[emptyIdx]] = [grid[emptyIdx], grid[i]];
         render();
-        checkSolved();
       } else {
         flashError('puzzle10');
       }
     };
   }
 
-  function checkSolved() {
-    if (grid.slice(0,9).every((v,i) => v === pieces[i])) nextPuzzle();
+  // verify solved state
+  function isSolved() {
+    return grid.slice(0,8).every((v,i) => v === pieces[i]) && grid[8] === null;
   }
 
   render();
+  // unlock on button click
+  document.getElementById('puzzle10-unlock').addEventListener('click', () => {
+    if (isSolved()) nextPuzzle(); else flashError('puzzle10');
+  });
 }
 
 // Flash error
