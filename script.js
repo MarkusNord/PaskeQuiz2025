@@ -67,7 +67,7 @@ function showPuzzle(id) {
   clearInterval(panicInterval);
   // setup Panic countdown
   const panicBtn = document.getElementById('panic-btn');
-  panicRemaining = 180; // 2 min
+  panicRemaining = 120; // 2 min
   panicBtn.disabled = true;
   panicBtn.style.display = 'inline-block';
   panicBtn.textContent = `Panic! Skip in ${formatTime(panicRemaining)}`;
