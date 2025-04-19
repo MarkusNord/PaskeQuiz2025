@@ -1,5 +1,6 @@
 // Core navigation and hint timers
 const puzzles = ['puzzle1','puzzle2','puzzle3','puzzle4','puzzle5','puzzle6','puzzle7','puzzle8','puzzle9','puzzle10'];
+const stories = ['story1','story2','story3','story4','story5','story6','story7','story8','story9','story10'];
 let current = 0;
 let hintTimer;
 let panicInterval;
@@ -36,6 +37,7 @@ function showStart() {
   document.getElementById('end-screen').style.display = 'none';
   // hide all puzzles
   puzzles.forEach(id => document.getElementById(id).style.display = 'none');
+  stories.forEach(id => document.getElementById(id).style.display = 'none');
 }
 
 function showEnd() {
@@ -49,6 +51,7 @@ function showEnd() {
   document.getElementById('end-screen').style.display = 'flex';
   // hide all puzzles
   puzzles.forEach(id => document.getElementById(id).style.display = 'none');
+  stories.forEach(id => document.getElementById(id).style.display = 'none');
 }
 
 // Refactor showPuzzle to focus only on puzzles
@@ -78,12 +81,42 @@ function showPuzzle(id) {
   document.getElementById('end-screen').style.display = 'none';
   // hide all puzzles and show only the current one
   puzzles.forEach(pid => document.getElementById(pid).style.display = 'none');
+  stories.forEach(sid => document.getElementById(sid).style.display = 'none');
   const el = document.getElementById(id);
   el.style.display = 'block';
   // start hint timer
   const hint = el.querySelector('.hint');
   hint.classList.add('hidden');
   hintTimer = setTimeout(() => hint.classList.remove('hidden'), 60000);
+}
+
+// Show a story page with typewriter effect
+function showStory(id) {
+  clearTimeout(hintTimer); clearInterval(panicInterval);
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('game-header').style.display = 'flex';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('end-screen').style.display = 'none';
+  puzzles.forEach(pid => document.getElementById(pid).style.display = 'none');
+  stories.forEach(sid => document.getElementById(sid).style.display = 'none');
+  const el = document.getElementById(id);
+  el.classList.remove('hidden');
+  el.style.display = 'block';
+  const btn = el.querySelector('.next-btn'); btn.disabled = true;
+  const textEl = el.querySelector('.story-text');
+  // inject player name into story text
+  const rawText = textEl.dataset.text;
+  const str = rawText.replace(/\[Navn\]/g, username);
+  textEl.textContent = '';
+  let idx = 0;
+  const ti = setInterval(() => {
+    if (idx < str.length) {
+      textEl.textContent += str[idx++];
+    } else {
+      clearInterval(ti);
+      btn.disabled = false;
+    }
+  }, 50);
 }
 
 // Initialize on load
@@ -107,10 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
     username = input;
     progress = 0; saveState();
     updateHeader();
-    showPuzzle(puzzles[0]);
+    showStory('story1');
   });
   // puzzle inits
   initPuzzle1(); initPuzzle2(); initPuzzle3(); initPuzzle4(); initPuzzle5(); initPuzzle6(); initPuzzle7(); initPuzzle8(); initPuzzle9(); initPuzzle10();
+  initStories();
 });
 
 // progression
@@ -119,13 +153,23 @@ function nextPuzzle() {
   current++;
   if (current < puzzles.length) {
     updateHeader();
-    showPuzzle(puzzles[current]);
+    // show the story before the next puzzle
+    showStory('story' + (current+1));
   } else {
     // finished
     localStorage.setItem('completed','true');
     showEnd();
     document.getElementById('final-name').textContent = username;
   }
+}
+
+// Initialize story navigation buttons
+function initStories() {
+  stories.forEach((sid,i) => {
+    document.getElementById(sid + '-next').addEventListener('click', () => {
+      showPuzzle(puzzles[i]);
+    });
+  });
 }
 
 // Puzzle 1

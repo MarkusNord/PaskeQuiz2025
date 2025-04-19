@@ -134,3 +134,38 @@ body { margin: 0; padding: 0; font-family: sans-serif; background: #f9f9f9; colo
   text-align: center;
   background: #fffbe6;
 }
+
+/* Story pages */
+.story {
+  display: none;
+  background: url("assets/images/letter.png") center/cover no-repeat;
+  background-size: cover;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  min-height: calc(100vh - 60px);
+  position: relative;
+  color: #333;
+  font-family: 'Times New Roman', serif;
+}
+.story .story-text {
+  white-space: pre-wrap;
+  font-size: 1.2em;
+  max-width: 600px;
+  margin: 0 auto 60px auto;
+  line-height: 1.4;
+}
+.next-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  /* Enhanced visibility */
+  background-color: #ffd700;
+  color: #333;
+  border: 2px solid #333;
+  border-radius: 4px;
+  z-index: 10;
+}

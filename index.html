@@ -19,28 +19,44 @@
     <button id="panic-btn" style="display:none; margin-left:20px;"></button>
   </header>
   <div id="app" class="hidden">
+    <!-- Story 1 -->
+    <section id="story1" class="story hidden">
+        <div class="story-text" data-text="En mørk påskenatt mottar du et mystisk brev under døren. Brevet er skrevet med sirlig håndskrift, underskrevet av &quot;P. Hare&quot;. Det forteller om et legendarisk påskeegg – det Glemte Egget – som har vært skjult i generasjoner. Bare én med skarpsinn, tålmodighet og viljestyrke kan finne det. Nå er det opp til deg, [Navn], å løse oppgavene og finne dets skjulested før tiden renner ut… Et støvete skap står låst foran deg. På døren er en digital lås og det henger en gul post-it-lapp: &quot;Ingen inngang uten balanse. Følg mønstrene under overflaten.&quot; Du må finne riktig tallrekke for å åpne skapet. Feil kode, og du risikerer å låse deg ute.">
+        </div>
+        <button id="story1-next" class="next-btn">Neste</button>
+    </section>
     <!-- Puzzle 1 -->
     <section id="puzzle1" class="puzzle">
-      <h1>Puzzle 1: Tastelås med skjult tallrekke</h1>
+      <h1>Puzzle 1: Tallrekke</h1>
       <p>Finn tallkoden ved å analysere tallrekken:</p>
       <div class="code">3, 1, 4, <span class="question">?</span>, 9, 2, 6</div>
       <input type="text" id="puzzle1-input" placeholder="Svar" maxlength="1">
       <button id="puzzle1-unlock">Unlock</button>
       <div id="puzzle1-hint" class="hint hidden">En matematisk konstant</div>
     </section>
+    <!-- Story 2 -->
+    <section id="story2" class="story hidden">
+      <div class="story-text" data-text="Inni skapet ligger en safe med et gammelt kodehjul. Vedlagt er et bilde av en kylling og et brevfragment: “Hun la dem før flukten. Ordet er nøkkelen.” Du må dekode bokstavene og finne ordet som låser opp videre vei."></div>
+      <button id="story2-next" class="next-btn">Neste</button>
+    </section>
     <!-- Puzzle 2 -->
     <section id="puzzle2" class="puzzle">
-      <h1>Puzzle 2: Kabinett med kodelås</h1>
-      <p>Finn den rette koden.</p>
+      <h1>Puzzle 2: Kodeordet</h1>
+      <p>Påskekyllinger og ....</p>
       <img src="assets/images/Chicken.png" alt="Kylling" class="puzzle-image">
-      <div class="wheel-container" id="puzzle2">
+      <div class="wheel-container">
         <div class="wheel" data-index="0"></div>
         <div class="wheel" data-index="1"></div>
         <div class="wheel" data-index="2"></div>
         <div class="wheel" data-index="3"></div>
       </div>
       <button id="puzzle2-unlock">Unlock</button>
-      <div id="puzzle2-hint" class="hint hidden">Hva kom først? Høna, eller .... (engelsk)?</div>
+      <div id="puzzle2-hint" class="hint hidden">Hva kom først? Høna, eller .... (flertall, engelsk)?</div>
+    </section>
+    <!-- Story 3 -->
+    <section id="story3" class="story hidden">
+      <div class="story-text" data-text="Inni safen ligger et slitt kart med bokstaver og tall. Noen felter er markert med gammel blekk: “Tre steder. Tre sannheter. Ett mål.” Du må løse tre kunnskapsbaserte hint for å finne riktig rute gjennom kartet. Bare én vei leder videre"></div>
+      <button id="story3-next" class="next-btn">Neste</button>
     </section>
     <!-- Puzzle 3 -->
     <section id="puzzle3" class="puzzle">
@@ -51,6 +67,11 @@
       <div class="grid-container" id="puzzle3-grid"></div>
       <button id="puzzle3-unlock">Unlock</button>
       <div id="puzzle3-hint" class="hint hidden">Geografi og bøker</div>
+    </section>
+    <!-- Story 4 -->
+    <section id="story4" class="story hidden">
+      <div class="story-text" data-text="Kartet leder deg lenger inn i huset, og du kommer til et rom med mørkt rom. Et panel med ledninger er på døren utenfor rommet. “Kobler du riktig, vil du se veien vider. Feil, og alt forblir i mørket.” Du må sette sammen en fungerende krets. Når lyset tennes, avsløres neste gåte."></div>
+      <button id="story4-next" class="next-btn">Neste</button>
     </section>
     <!-- Puzzle 4 -->
     <section id="puzzle4" class="puzzle">
@@ -76,6 +97,11 @@
       <button id="puzzle4-unlock">Test krets</button>
       <div id="puzzle4-hint" class="hint hidden">Alt som lyser er ikke strøm…</div>
     </section>
+    <!-- Story 5 -->
+    <section id="story5" class="story hidden">
+      <div class="story-text" data-text="Når lyset slås på står en lampe i hjørnet og blinker rytmisk. Du må tolke signalet og skrive inn ordet på kombinasjonslåsen for å åpne døren til neste rom."></div>
+      <button id="story5-next" class="next-btn">Neste</button>
+    </section>
     <!-- Puzzle 5 -->
     <section id="puzzle5" class="puzzle">
       <h1>Puzzle 5: Morse-kode</h1>
@@ -86,15 +112,25 @@
         <img src="assets/images/International_Morse_Code.svg" alt="Morse code chart">
       </div>
     </section>
+    <!-- Story 6 -->
+    <section id="story6" class="story hidden">
+      <div class="story-text" data-text="På et støvete bord står et gammelt pengeskrin som er låst med tallhjul. Noen ledetråder er risset inn i lokket: “Han som gikk på månen. De som ble befridd. Alle verdenshjørner.” Du må kjenne historien – eller være smart nok til å finne den – for å åpne skrinet."></div>
+      <button id="story6-next" class="next-btn">Neste</button>
+    </section>
     <!-- Puzzle 6 -->
     <section id="puzzle6" class="puzzle">
       <h1>Puzzle 6: Historietime!</h1>
-      <p>1. Når landet det første mennesket på månen? – siste siffer i årstall
-        <p>2. Norges frigjøringsår etter andre verdenskrig - 2 siste siffer</p>
-        <p>3. Antall kontinenter - ett siffer</p>
+      <p>1. Når landet det første mennesket på månen? – siste siffer i årstall</p>
+      <p>2. Norges frigjøringsår etter andre verdenskrig - 2 siste siffer</p>
+      <p>3. Antall kontinenter - ett siffer</p>
       <input type="text" id="puzzle6-input" maxlength="4" placeholder="Kode">
       <button id="puzzle6-unlock">Unlock</button>
       <div id="puzzle6-hint" class="hint hidden">... eller Google :D</div>
+    </section>
+    <!-- Story 7 -->
+    <section id="story7" class="story hidden">
+      <div class="story-text" data-text="I boksen finner du nøkkelen til neste rom. Du låser opp døren og trer inn i et støvete rom. Det lukter voks og gammelt sjokoladepapir. På veggen henger en tavle med tråder og bilder, og på bordet et halvspist egg. “Alt som skjedde den påskeaften, finnes fortsatt her. Jeg prøvde å ringe. Han svarte aldri. Døren var låst, og da jeg endelig kom inn fant jeg mordvåpenet. Se nøye. Tre ting hører til historien.” Du må finne tre riktige symboler i rommet som forklarer hva som skjedde – og hvilken gjenstand som mangler."></div>
+      <button id="story7-next" class="next-btn">Neste</button>
     </section>
     <!-- Puzzle 7 -->
     <section id="puzzle7" class="puzzle">
@@ -107,6 +143,11 @@
       <button id="puzzle7-unlock-btn">Unlock</button>
       <div id="puzzle7-hint" class="hint hidden">Velg tre ting og trykk unlock …</div>
     </section>
+    <!-- Story 8 -->
+    <section id="story8" class="story hidden">
+      <div class="story-text" data-text="Du prøver nøkkelen i døren til neste rom, når du vrir den så knekker den! ... etter å ha tenkt deg litt om så tar du frem kniven og skyver opp dørlåsen med den i stedet. Suksess! Du kommer inn i et rom med enda en låst dør. Et dekorert panel står i veien for neste rom. Det gløder i mønstre som endrer seg stadig. “Fargene følger gamle rytmer. Se mønsteret, og døren åpnes.”"></div>
+      <button id="story8-next" class="next-btn">Neste</button>
+    </section>
     <!-- Puzzle 8 -->
     <section id="puzzle8" class="puzzle">
       <h1>Puzzle 8: Kodesekvens</h1>
@@ -114,6 +155,11 @@
       <div id="puzzle8-grid"></div>
       <button id="puzzle8-unlock">Unlock</button>
       <div id="puzzle8-hint" class="hint hidden">Sett sekvensen for å låse opp</div>
+    </section>
+    <!-- Story 9 -->
+    <section id="story9" class="story hidden">
+      <div class="story-text" data-text="I det nye rommet står et skrivebord med en gammel datamaskin. En skjerm flimrer til liv. På den, en prompt og filen access.txt. “Én kode, skjult i støyen. Én linje som leder videre.” Du må finne den skjulte PIN-koden blant forvrengt terminaldata og skrive den inn. Én feil, og systemet låser seg midlertidig."></div>
+      <button id="story9-next" class="next-btn">Neste</button>
     </section>
     <!-- Puzzle 9 -->
     <section id="puzzle9" class="puzzle">
@@ -124,6 +170,11 @@
       <input type="text" id="puzzle9-input" placeholder="PIN" maxlength="4">
       <button id="puzzle9-unlock">Unlock</button>
       <div id="puzzle9-hint" class="hint hidden">Kjør "open access.txt"</div>
+    </section>
+    <!-- Story 10 -->
+    <section id="story10" class="story hidden">
+      <div class="story-text" data-text="Når koden skrives inn åpner et veggpanel seg og avslører et mekanisk puslespill. Deler av et forseggjort påskeegg ligger blandet. “Bitene må falle på plass for at bildet skal bli tydelig.” Du må sette brikkene sammen for å danne det tapte symbolet. Bare da vil veien videre åpne seg."></div>
+      <button id="story10-next" class="next-btn">Neste</button>
     </section>
     <!-- Puzzle 10 -->
     <section id="puzzle10" class="puzzle">
@@ -136,7 +187,7 @@
   <!-- End screen -->
   <section id="end-screen" class="hidden">
     <h1>Gratulerer, <span id="final-name"></span>!</h1>
-    <p>Du har funnet det glemte egget 🎉</p>
+    <div class="story-text" data-text="En skjult luke åpnes. Inni: et glitrende egg med intrikat mønster og metallisk glans. En siste lapp ligger under det: “Du så bakenfor. Du lyttet, tvilte, forsto. Egget finnes i skapet under TVen på stuen. Egget har funnet sin vokter, [Navn]. — P. Hare”"></div>    
   </section>
   <script src="script.js"></script>
 </body>
