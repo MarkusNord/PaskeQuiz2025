@@ -1,0 +1,23 @@
+# SYSTEM ACCESS FILE – DO NOT MODIFY
+>> bootload.sys -> OK  
+>> stream integrity: DEGRADATED  
+>> fallback: REVERT @ sector 21fB: recover_log→
+
+--- MEMORY DUMP INITIATED ---
+packet.trace[seg:0xP5]
+::::v294-error-delim::::  
+412t.∆spool.dump.bak{_AUX}
+heartbeat_timeout = 24ms  
+!⚠! stack.leak > /dev/null  
+file_shadow[2].tmp → ←∑r4e1  
+last_known: proxy54//ECHO  
+
+[WARNING] unauthorized query @ gate-4  
+> p.i.n.   // unrelated comment  
+>    5     // hex parsing failed  
+>      2   // char shift >>3  
+>        4 // keep alive ping
+>          1 // <<–– OVERFLOW_MARK
+
+logchain://reset_handler (UNSTABLE)
+--- END SECTOR ---

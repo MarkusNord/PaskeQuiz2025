@@ -337,8 +337,74 @@ function initPuzzle8() {
 
 // Puzzle 9: Terminal style
 function initPuzzle9() {
-  const term = document.querySelector('.terminal');
-  term.textContent = 'access.txt: ... unlock --pin 5241 ...';
+  // Setup terminal view and command handling
+  const term = document.querySelector('#puzzle9 .terminal');
+  const terminalInput = document.getElementById('terminal-input');
+  const files = ['påskemysterier.txt','access.txt','sommerferieplaner.doc','hvor_er_påskeegget.hemmelig'];
+  const errorMessages = [
+    'Error: Kommando ikke funnet',
+    'Segmentation fault',
+    'Permission denied',
+    'Unknown instruction',
+    'System crash',
+    'Operation timed out',
+    'Invalid syntax',
+    'Access violation',
+    'Command aborted',
+    'I/O error'
+  ];
+  const accessContent = `# SYSTEM ACCESS FILE – DO NOT MODIFY
+>> bootload.sys -> OK  
+>> stream integrity: DEGRADATED  
+>> fallback: REVERT @ sector 21fB: recover_log→
+
+--- MEMORY DUMP INITIATED ---
+packet.trace[seg:0xP5]
+::::v294-error-delim::::  
+412t.∆spool.dump.bak{_AUX}
+heartbeat_timeout = 24ms  
+!⚠! stack.leak > /dev/null  
+file_shadow[2].tmp → ←∑r4e1  
+last_known: proxy54//ECHO  
+
+[WARNING] unauthorized query @ gate-4  
+> p.i.n.   // unrelated comment  
+>    5     // hex parsing failed  
+>      2   // char shift >>3  
+>        4 // keep alive ping
+>          1 // <<–– OVERFLOW_MARK
+
+logchain://reset_handler (UNSTABLE)
+--- END SECTOR ---`;
+  function resetTerminal() {
+    term.textContent = files.join('\n');
+  }
+  resetTerminal();
+  terminalInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const cmd = terminalInput.value.trim();
+      terminalInput.value = '';
+      if (cmd === 'open access.txt') {
+        term.textContent = accessContent;
+      } else {
+        const msg = errorMessages[Math.floor(Math.random() * errorMessages.length)];
+        term.textContent = msg;
+        setTimeout(resetTerminal, 1500);
+      }
+    }
+  });
+  // Enter button click triggers the same command logic
+  document.getElementById('terminal-enter').addEventListener('click', () => {
+    const cmd = terminalInput.value.trim();
+    terminalInput.value = '';
+    if (cmd === 'open access.txt') {
+      term.textContent = accessContent;
+    } else {
+      const msg = errorMessages[Math.floor(Math.random() * errorMessages.length)];
+      term.textContent = msg;
+      setTimeout(resetTerminal, 1500);
+    }
+  });
   document.getElementById('puzzle9-unlock').addEventListener('click', () => {
     const pin = document.getElementById('puzzle9-input').value.trim();
     if (pin === '5241') nextPuzzle(); else flashError('puzzle9');

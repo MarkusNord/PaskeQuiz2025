@@ -27,7 +27,7 @@ body { margin: 0; padding: 0; font-family: sans-serif; background: #f9f9f9; colo
   0%, 100% { transform: rotate(-5deg); }
   50% { transform: rotate(5deg); }
 }
-#username-input, #puzzle5-input, #puzzle1-input, #puzzle9-input, #puzzle6-input {
+#username-input, #puzzle5-input, #puzzle1-input, #puzzle9-input, #puzzle6-input, #terminal-input {
   padding: 10px;
   font-size: 16px;
   margin: 10px 0;
@@ -35,10 +35,18 @@ body { margin: 0; padding: 0; font-family: sans-serif; background: #f9f9f9; colo
   max-width: 300px;
   box-sizing: border-box;
 }
-#start-btn, button {
+#terminal-input {
+  background: #000;
+  color: #0f0;
+  border: 1px solid #0f0;
+}
+#start-btn, button, #terminal-enter {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+}
+#terminal-enter {
+  margin-left: 5px;
 }
 
 /* Header */
@@ -66,7 +74,7 @@ body { margin: 0; padding: 0; font-family: sans-serif; background: #f9f9f9; colo
 .color-button.red { background: red; }
 .color-button.blue { background: blue; }
 
-.terminal { background: #000; color: #0f0; font-family: monospace; padding: 10px; min-height: 100px; overflow: auto; margin: 20px 0; }
+.terminal { background: #000; color: #0f0; font-family: monospace; padding: 10px; min-height: 100px; overflow: auto; margin: 20px 0; white-space: pre-wrap; }
 
 .slider-puzzle { display: grid; grid-template-columns: repeat(3, 100px); grid-template-rows: repeat(3, 100px); gap: 2px; margin: 20px auto; width: max-content; }
 .slider-puzzle img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
