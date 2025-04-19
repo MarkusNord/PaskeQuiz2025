@@ -1,0 +1,103 @@
+/* Base styles */
+body { margin: 0; padding: 0; font-family: sans-serif; background: #f9f9f9; color: #333; }
+#app { max-width: 600px; margin: auto; padding: 20px; }
+.puzzle { display: none; }
+.puzzle.active { display: block; }
+.hidden { display: none !important; }
+.hint { margin-top: 10px; color: #555; }
+.shake { animation: shake 0.3s; }
+@keyframes shake { 0%{transform:translateX(0);} 20%{transform:translateX(-5px);} 40%{transform:translateX(5px);} 60%{transform:translateX(-5px);} 80%{transform:translateX(5px);} 100%{transform:translateX(0);} }
+
+/* Start screen */
+#start-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #fffbe6;
+  text-align: center;
+}
+.intro-egg {
+  width: 150px;
+  animation: wobble 1s infinite ease-in-out;
+  margin: 20px 0;
+}
+@keyframes wobble {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+#username-input, #puzzle5-input, #puzzle1-input, #puzzle9-input {
+  padding: 10px;
+  font-size: 16px;
+  margin: 10px 0;
+  width: 80%;
+  max-width: 300px;
+  box-sizing: border-box;
+}
+#start-btn, button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Header */
+#game-header {
+  background: #ffd700;
+  padding: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+.hidden { display: none !important; }
+
+/* Puzzle-specific */
+.wheel-container { display: flex; justify-content: space-around; margin: 20px 0; }
+.wheel { width: 50px; height: 50px; border: 1px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; background: #fff; }
+
+.grid-container { display: grid; grid-template-columns: repeat(7, 40px); grid-gap: 5px; margin: 20px 0; }
+.cell { width: 40px; height: 40px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; cursor: pointer; background: #fff; }
+.cell.selected { background: yellow; }
+
+.color-panel { display: flex; justify-content: space-around; margin: 20px 0; }
+.color-button { width: 50px; height: 50px; border-radius: 50%; cursor: pointer; }
+.color-button.yellow { background: yellow; }
+.color-button.green { background: green; }
+.color-button.red { background: red; }
+.color-button.blue { background: blue; }
+
+.terminal { background: #000; color: #0f0; font-family: monospace; padding: 10px; min-height: 100px; overflow: auto; margin: 20px 0; }
+
+.slider-puzzle { display: grid; grid-template-columns: repeat(3, 100px); grid-template-rows: repeat(3, 100px); gap: 2px; margin: 20px auto; width: max-content; }
+.slider-puzzle img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+
+/* Puzzle 2 image */
+.puzzle-image { width: 25%; height: auto; display: block; margin: 20px auto; }
+
+/* Puzzle 4: Elektrisk krets */
+.circuit-container { display: flex; gap: 1rem; align-items: flex-start; margin: 20px 0; }
+.toolbox { border: 1px solid #333; padding: 10px; min-width: 100px; background: #fff; }
+.component { margin: 5px; padding: 5px; background: #ffd; cursor: grab; text-align: center; }
+.component.dummy { opacity: 0.5; }
+.circuit-board { border: 1px solid #333; padding: 10px; background: #eef; min-width: 150px; display: flex; flex-direction: column; gap: 10px; }
+.slot { height: 50px; border: 1px dashed #666; display: flex; align-items: center; justify-content: center; background: #fff; }
+.slot.on { background: #cfc; }
+.uv-message { margin-top: 10px; padding: 10px; background: #000; color: #0f0; font-family: monospace; text-align: center; animation: glow 1s infinite alternate; }
+@keyframes glow { from { text-shadow: 0 0 5px #0f0; } to { text-shadow: 0 0 20px #0f0; } }
+
+.morse-display {
+  font-size: 2em;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* End screen */
+#end-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  background: #fffbe6;
+}

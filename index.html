@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Påskequizzen 2025</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section id="start-screen">
+    <h1>Velkommen til Påskequizzen 2025!</h1>
+    <img src="assets/images/Egg01.png" alt="Egg" class="intro-egg">
+    <p>Et mystisk brev fra P. Hare venter på deg...</p>
+    <input type="text" id="username-input" placeholder="Skriv inn navnet ditt">
+    <button id="start-btn">Start</button>
+  </section>
+  <header id="game-header" class="hidden">
+    <span id="player-name"></span>, oppgave <span id="progress"></span>/10
+  </header>
+  <div id="app" class="hidden">
+    <!-- Puzzle 1 -->
+    <section id="puzzle1" class="puzzle">
+      <h1>Puzzle 1: Tastelås med skjult tallrekke</h1>
+      <p>Finn tallkoden ved å analysere tallrekken:</p>
+      <div class="code">3, 1, 4, <span class="question">?</span>, 9, 2, 6</div>
+      <input type="text" id="puzzle1-input" placeholder="Svar" maxlength="1">
+      <button id="puzzle1-unlock">Unlock</button>
+      <div id="puzzle1-hint" class="hint hidden">En matematisk konstant</div>
+    </section>
+    <!-- Puzzle 2 -->
+    <section id="puzzle2" class="puzzle">
+      <h1>Puzzle 2: Kabinett med kodelås</h1>
+      <p>Finn den rette koden.</p>
+      <img src="assets/images/Chicken.png" alt="Kylling" class="puzzle-image">
+      <div class="wheel-container" id="puzzle2">
+        <div class="wheel" data-index="0"></div>
+        <div class="wheel" data-index="1"></div>
+        <div class="wheel" data-index="2"></div>
+        <div class="wheel" data-index="3"></div>
+      </div>
+      <button id="puzzle2-unlock">Unlock</button>
+      <div id="puzzle2-hint" class="hint hidden">Hva kom først? Høna, eller .... (engelsk)?</div>
+    </section>
+    <!-- Puzzle 3 -->
+    <section id="puzzle3" class="puzzle">
+      <h1>Puzzle 3: Kart med koordinater</h1>
+      <p>1. Hva heter hovedstaden i Jordan og hvor mange bøker er det i Harry Potter-serien?</p>
+      <p>2. Hva heter hovedstaden i Tyskland og hvor mange bøker er det i Ringenes Herre-serien?</p>
+      <p>3. Hva heter hovedstaden i Sierra Leone og hvor mange bøker er det i Kattekrigerne-serien?</p>
+      <div class="grid-container" id="puzzle3-grid"></div>
+      <button id="puzzle3-unlock">Unlock</button>
+      <div id="puzzle3-hint" class="hint hidden">Geografi og bøker</div>
+    </section>
+    <!-- Puzzle 4 -->
+    <section id="puzzle4" class="puzzle">
+      <h1>Puzzle 4: Elektrisk krets</h1>
+      <div class="circuit-container">
+        <div class="toolbox">
+          <div class="component" draggable="true" data-comp="battery">🔋 Batteri</div>
+          <div class="component" draggable="true" data-comp="switch">🔲 Bryter</div>
+          <div class="component" draggable="true" data-comp="bulb">💡 Lyspære</div>
+          <div class="component" draggable="true" data-comp="resistor">Ω Motstand</div>
+          <div class="component dummy" draggable="true" data-comp="fake1">❌ Defekt</div>
+          <div class="component dummy" draggable="true" data-comp="fake2">⚡ Defekt</div>
+        </div>
+        <div class="circuit-board">
+          <div class="slot" data-slot="battery-slot">?</div>
+          <div class="slot" data-slot="switch-slot">?</div>
+          <div class="slot" data-slot="resistor-slot">?</div>
+          <div class="slot" data-slot="bulb-slot">?</div>
+        </div>
+        <p class="instruction">Plasser komponentene i riktig rekkefølge</p>
+        <div id="puzzle4-uv" class="uv-message hidden">✨ Skjult melding: “Søket fortsetter…” ✨</div>
+      </div>
+      <button id="puzzle4-unlock">Test krets</button>
+      <div id="puzzle4-hint" class="hint hidden">Alt som lyser er ikke strøm…</div>
+    </section>
+    <!-- Puzzle 5 -->
+    <section id="puzzle5" class="puzzle">
+      <h1>Puzzle 5: Morse-kode</h1>
+      <div class="morse-display"></div>
+      <input type="text" id="puzzle5-input" maxlength="3" placeholder="Svar">
+      <button id="puzzle5-unlock">Unlock</button>
+      <div id="puzzle5-hint" class="hint hidden">
+        Alfabettabell vises
+        <img src="assets/images/International_Morse_Code.svg" alt="Morse code chart">
+      </div>
+    </section>
+    <!-- Puzzle 6 -->
+    <section id="puzzle6" class="puzzle">
+      <h1>Puzzle 6: Kombinasjonslås</h1>
+      <div class="dial-container"></div>
+      <button id="puzzle6-unlock">Unlock</button>
+      <div id="puzzle6-hint" class="hint hidden">Historietime! - eller Google :D</div>
+    </section>
+    <!-- Puzzle 7 -->
+    <section id="puzzle7" class="puzzle">
+      <h1>Puzzle 7: Skjulte elementer</h1>
+      <div class="zoom-container">
+        <img src="assets/images/Room.png" alt="Rom" id="puzzle7-image">
+      </div>
+      <input type="text" id="puzzle7-unlock" placeholder="Kode">
+      <button id="puzzle7-unlock-btn">Unlock</button>
+      <div id="puzzle7-hint" class="hint hidden">Let i nærheten av døren …</div>
+    </section>
+    <!-- Puzzle 8 -->
+    <section id="puzzle8" class="puzzle">
+      <h1>Puzzle 8: Fargebasert rekkefølge</h1>
+      <div class="color-panel"></div>
+      <button id="puzzle8-unlock">Unlock</button>
+      <div id="puzzle8-hint" class="hint hidden">Finn det skjulte rotasjonsmønsteret</div>
+    </section>
+    <!-- Puzzle 9 -->
+    <section id="puzzle9" class="puzzle">
+      <h1>Puzzle 9: Terminalkode</h1>
+      <div class="terminal"></div>
+      <input type="text" id="puzzle9-input" placeholder="PIN" maxlength="4">
+      <button id="puzzle9-unlock">Unlock</button>
+      <div id="puzzle9-hint" class="hint hidden">Se på access.txt først!</div>
+    </section>
+    <!-- Puzzle 10 -->
+    <section id="puzzle10" class="puzzle">
+      <h1>Puzzle 10: Skyvepuslespill</h1>
+      <div class="slider-puzzle"></div>
+      <div id="puzzle10-hint" class="hint hidden">Tenk på hvordan egg vanligvis ser ut…</div>
+    </section>
+  </div>
+  <!-- End screen -->
+  <section id="end-screen" class="hidden">
+    <h1>Gratulerer, <span id="final-name"></span>!</h1>
+    <p>Du har funnet det glemte egget 🎉</p>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>
