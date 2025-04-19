@@ -38,6 +38,11 @@ function showStart() {
   // hide all puzzles
   puzzles.forEach(id => document.getElementById(id).style.display = 'none');
   stories.forEach(id => document.getElementById(id).style.display = 'none');
+  // hide final story section
+  document.getElementById('story-end').style.display = 'none';
+  // clear name input
+  const nameInput = document.getElementById('username-input');
+  if (nameInput) nameInput.value = '';
 }
 
 function showEnd() {
@@ -49,9 +54,11 @@ function showEnd() {
   document.getElementById('game-header').style.display = 'none';
   document.getElementById('app').style.display = 'none';
   document.getElementById('end-screen').style.display = 'flex';
-  // hide all puzzles
+  // hide all puzzles and stories
   puzzles.forEach(id => document.getElementById(id).style.display = 'none');
   stories.forEach(id => document.getElementById(id).style.display = 'none');
+  // show player name in final screen
+  document.getElementById('final-name').textContent = username;
 }
 
 // Refactor showPuzzle to focus only on puzzles
@@ -60,7 +67,7 @@ function showPuzzle(id) {
   clearInterval(panicInterval);
   // setup Panic countdown
   const panicBtn = document.getElementById('panic-btn');
-  panicRemaining = 300; // 5 minutes
+  panicRemaining = 1; // 1 sec
   panicBtn.disabled = true;
   panicBtn.style.display = 'inline-block';
   panicBtn.textContent = `Panic! Skip in ${formatTime(panicRemaining)}`;
@@ -84,6 +91,8 @@ function showPuzzle(id) {
   stories.forEach(sid => document.getElementById(sid).style.display = 'none');
   const el = document.getElementById(id);
   el.style.display = 'block';
+  // for Puzzle 7, re-run its init to place icons after display
+  if (id === 'puzzle7') initPuzzle7();
   // start hint timer
   const hint = el.querySelector('.hint');
   hint.classList.add('hidden');
@@ -102,11 +111,13 @@ function showStory(id) {
   const el = document.getElementById(id);
   el.classList.remove('hidden');
   el.style.display = 'block';
-  const btn = el.querySelector('.next-btn'); btn.disabled = true;
+  const btn = el.querySelector('.next-btn');
   const textEl = el.querySelector('.story-text');
   // inject player name into story text
   const rawText = textEl.dataset.text;
   const str = rawText.replace(/\[Navn\]/g, username);
+  // typewriter for stories
+  btn.disabled = false;
   textEl.textContent = '';
   let idx = 0;
   const ti = setInterval(() => {
@@ -155,11 +166,13 @@ function nextPuzzle() {
     updateHeader();
     // show the story before the next puzzle
     showStory('story' + (current+1));
+  } else if (current === puzzles.length) {
+    // show final story before ending
+    showStory('story-end');
   } else {
-    // finished
+    // completed all
     localStorage.setItem('completed','true');
     showEnd();
-    document.getElementById('final-name').textContent = username;
   }
 }
 
@@ -169,6 +182,11 @@ function initStories() {
     document.getElementById(sid + '-next').addEventListener('click', () => {
       showPuzzle(puzzles[i]);
     });
+  });
+  // play again button on final story resets game
+  document.getElementById('play-again').addEventListener('click', () => {
+    localStorage.clear();
+    location.reload();
   });
 }
 
@@ -306,37 +324,38 @@ function initPuzzle6() {
 // Puzzle 7: Hidden icons overlay
 function initPuzzle7() {
   const container = document.querySelector('#puzzle7 .zoom-container');
-  const iconNames = ['chicken_icon.png','egg_icon.png','key_icon.png','knife_icon.png','phone_icon.png','rabbit_icon.png'];
   // clear any existing icons
   container.querySelectorAll('.puzzle7-icon').forEach(el => el.remove());
-  const icons = [];
-  // calculate container size and icon size
-  const rect = container.getBoundingClientRect();
-  const iconSize = rect.width * 0.15;
-  const positions = [];
-  // position each icon without overlapping
-  iconNames.forEach(name => {
-    let x, y, attempts = 0;
-    do {
-      x = Math.random() * (rect.width - iconSize);
-      y = Math.random() * (rect.height - iconSize);
-      attempts++;
-    } while (positions.some(p => Math.abs(p.x - x) < iconSize && Math.abs(p.y - y) < iconSize) && attempts < 100);
-    positions.push({x, y});
-    const img = document.createElement('img');
-    img.src = 'assets/images/' + name;
-    img.className = 'puzzle7-icon';
-    img.style.width = iconSize + 'px';
-    img.style.height = iconSize + 'px';
-    img.style.position = 'absolute';
-    img.style.top = y + 'px';
-    img.style.left = x + 'px';
-    container.appendChild(img);
-    icons.push({name, el: img});
-  });
-  let selected = [];
-  icons.forEach(obj => {
-    obj.el.addEventListener('click', () => {
+  const img = document.getElementById('puzzle7-image');
+
+  // icon placement logic deferred until image load
+  function placeIcons() {
+    const iconNames = ['chicken_icon.png','egg_icon.png','key_icon.png','knife_icon.png','phone_icon.png','rabbit_icon.png'];
+    const icons = [];
+    const rect = container.getBoundingClientRect();
+    const iconSize = rect.width * 0.15;
+    const positions = [];
+    iconNames.forEach(name => {
+      let x, y, attempts = 0;
+      do {
+        x = Math.random() * (rect.width - iconSize);
+        y = Math.random() * (rect.height - iconSize);
+        attempts++;
+      } while (positions.some(p => Math.abs(p.x - x) < iconSize && Math.abs(p.y - y) < iconSize) && attempts < 100);
+      positions.push({x, y});
+      const imgEl = document.createElement('img');
+      imgEl.src = 'assets/images/' + name;
+      imgEl.className = 'puzzle7-icon';
+      imgEl.style.width = iconSize + 'px';
+      imgEl.style.height = iconSize + 'px';
+      imgEl.style.position = 'absolute';
+      imgEl.style.top = y + 'px';
+      imgEl.style.left = x + 'px';
+      container.appendChild(imgEl);
+      icons.push({name, el: imgEl});
+    });
+    let selected = [];
+    icons.forEach(obj => obj.el.addEventListener('click', () => {
       if (obj.el.classList.contains('selected')) {
         obj.el.classList.remove('selected');
         selected = selected.filter(n => n !== obj.name);
@@ -344,16 +363,16 @@ function initPuzzle7() {
         obj.el.classList.add('selected');
         selected.push(obj.name);
       }
+    }));
+    document.getElementById('puzzle7-unlock-btn').addEventListener('click', () => {
+      const required = ['key_icon.png','knife_icon.png','phone_icon.png'];
+      if (selected.length === 3 && required.every(n => selected.includes(n))) nextPuzzle();
+      else flashError('puzzle7');
     });
-  });
-  document.getElementById('puzzle7-unlock-btn').addEventListener('click', () => {
-    const required = ['key_icon.png','knife_icon.png','phone_icon.png'];
-    if (selected.length === 3 && required.every(n => selected.includes(n))) {
-      nextPuzzle();
-    } else {
-      flashError('puzzle7');
-    }
-  });
+  }
+
+  if (img.complete) placeIcons();
+  else img.addEventListener('load', placeIcons);
 }
 
 // Puzzle 8: Color order

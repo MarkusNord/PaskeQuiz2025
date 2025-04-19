@@ -70,7 +70,7 @@
     </section>
     <!-- Story 4 -->
     <section id="story4" class="story hidden">
-      <div class="story-text" data-text="Kartet leder deg lenger inn i huset, og du kommer til et rom med mørkt rom. Et panel med ledninger er på døren utenfor rommet. “Kobler du riktig, vil du se veien vider. Feil, og alt forblir i mørket.” Du må sette sammen en fungerende krets. Når lyset tennes, avsløres neste gåte."></div>
+      <div class="story-text" data-text="Kartet leder deg lenger inn i huset, og du kommer til et mørkt rom. Et panel med ledninger er ved siden av inngangen til rommet. “Kobler du riktig, vil du se veien vider. Feil, og alt forblir i mørket.” Du må sette sammen en fungerende krets. Når lyset tennes, avsløres neste gåte."></div>
       <button id="story4-next" class="next-btn">Neste</button>
     </section>
     <!-- Puzzle 4 -->
@@ -183,11 +183,15 @@
       <button id="puzzle10-unlock">Unlock</button>
       <div id="puzzle10-hint" class="hint hidden">Løs skyvepuslespillet for å komme videre!</div>
     </section>
+    <!-- Story End -->
+    <section id="story-end" class="story hidden">
+      <div class="story-text" data-text="En skjult luke åpnes. Inni: et glitrende egg med intrikat mønster og metallisk glans. En siste lapp ligger under det: ‘Du så bakenfor. Du lyttet, tvilte, forsto. Egget finnes i skapet under TV-en på stuen. Egget har funnet sin vokter, [Navn]. — P. Hare’"></div>
+      <button id="play-again" class="next-btn">Spill igjen!</button>
+    </section>
   </div>
   <!-- End screen -->
   <section id="end-screen" class="hidden">
-    <h1>Gratulerer, <span id="final-name"></span>!</h1>
-    <div class="story-text" data-text="En skjult luke åpnes. Inni: et glitrende egg med intrikat mønster og metallisk glans. En siste lapp ligger under det: “Du så bakenfor. Du lyttet, tvilte, forsto. Egget finnes i skapet under TVen på stuen. Egget har funnet sin vokter, [Navn]. — P. Hare”"></div>    
+    <div class="story-text">En skjult luke åpnes. Inni: et glitrende egg med intrikat mønster og metallisk glans. En siste lapp ligger under det: “Du så bakenfor. Du lyttet, tvilte, forsto. Egget finnes i skapet under TVen på stuen. Egget har funnet sin vokter, <span id="final-name"></span>. — P. Hare”</div>    
   </section>
   <script src="script.js"></script>
 </body>

@@ -100,10 +100,16 @@ body { margin: 0; padding: 0; font-family: sans-serif; background: #f9f9f9; colo
 }
 
 /* Puzzle 7: Hidden item overlay */
-.zoom-container { position: relative; width: 100%; }
+.zoom-container { position: relative; width: 100%; z-index: 0; }
 #puzzle7-image { width: 100%; height: auto; display: block; }
-.puzzle7-icon { position: absolute; width: 15%; cursor: pointer; }
-.puzzle7-icon.selected { outline: 3px solid red; border-radius: 4px; }
+.puzzle7-icon { position: absolute; width: 15%; cursor: pointer; z-index: 10; }
+.puzzle7-icon.selected { 
+  border: 3px solid red !important;
+  box-shadow: 0 0 10px 2px rgba(255,0,0,0.7) !important;
+  outline: 2px solid yellow !important;
+  outline-offset: 2px !important;
+  z-index: 2147483647 !important;
+}
 
 /* Puzzle 8: Sequence display */
 #puzzle8-sequence { display: flex; justify-content: space-around; margin: 20px 0; }
