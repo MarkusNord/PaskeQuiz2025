@@ -220,45 +220,118 @@ function initPuzzle5() {
 
 // Puzzle 6: Numeric combination
 function initPuzzle6() {
-  const cont = document.querySelector('.dial-container');
-  const targets = ['9','45','7'];
-  targets.forEach((t,i) => {
-    const inp = document.createElement('input');
-    inp.type = 'text'; inp.maxLength = t.length;
-    inp.className = 'dial';
-    cont.appendChild(inp);
-  });
   document.getElementById('puzzle6-unlock').addEventListener('click', () => {
-    const vals = Array.from(document.querySelectorAll('.dial')).map(i=>i.value.trim());
-    if (vals.join('-')===targets.join('-')) nextPuzzle(); else flashError('puzzle6');
+    const val = document.getElementById('puzzle6-input').value.trim();
+    if (val === '9457') nextPuzzle(); else flashError('puzzle6');
   });
 }
 
-// Puzzle 7: Hidden items
+// Puzzle 7: Hidden icons overlay
 function initPuzzle7() {
-  const img = document.getElementById('puzzle7-image');
-  let count = 0;
-  img.style.cursor = 'pointer';
-  img.addEventListener('click', () => {
-    count++;
-    if (count >= 4) nextPuzzle();
+  const container = document.querySelector('#puzzle7 .zoom-container');
+  const iconNames = ['chicken_icon.png','egg_icon.png','key_icon.png','knife_icon.png','phone_icon.png','rabbit_icon.png'];
+  // clear any existing icons
+  container.querySelectorAll('.puzzle7-icon').forEach(el => el.remove());
+  const icons = [];
+  // calculate container size and icon size
+  const rect = container.getBoundingClientRect();
+  const iconSize = rect.width * 0.15;
+  const positions = [];
+  // position each icon without overlapping
+  iconNames.forEach(name => {
+    let x, y, attempts = 0;
+    do {
+      x = Math.random() * (rect.width - iconSize);
+      y = Math.random() * (rect.height - iconSize);
+      attempts++;
+    } while (positions.some(p => Math.abs(p.x - x) < iconSize && Math.abs(p.y - y) < iconSize) && attempts < 100);
+    positions.push({x, y});
+    const img = document.createElement('img');
+    img.src = 'assets/images/' + name;
+    img.className = 'puzzle7-icon';
+    img.style.width = iconSize + 'px';
+    img.style.height = iconSize + 'px';
+    img.style.position = 'absolute';
+    img.style.top = y + 'px';
+    img.style.left = x + 'px';
+    container.appendChild(img);
+    icons.push({name, el: img});
+  });
+  let selected = [];
+  icons.forEach(obj => {
+    obj.el.addEventListener('click', () => {
+      if (obj.el.classList.contains('selected')) {
+        obj.el.classList.remove('selected');
+        selected = selected.filter(n => n !== obj.name);
+      } else if (selected.length < 3) {
+        obj.el.classList.add('selected');
+        selected.push(obj.name);
+      }
+    });
   });
   document.getElementById('puzzle7-unlock-btn').addEventListener('click', () => {
-    const val = document.getElementById('puzzle7-unlock').value.trim();
-    if (val) nextPuzzle(); else flashError('puzzle7');
+    const required = ['key_icon.png','knife_icon.png','phone_icon.png'];
+    if (selected.length === 3 && required.every(n => selected.includes(n))) {
+      nextPuzzle();
+    } else {
+      flashError('puzzle7');
+    }
   });
 }
 
 // Puzzle 8: Color order
 function initPuzzle8() {
-  const panel = document.querySelector('.color-panel');
-  ['yellow','green','red','blue'].forEach(color => {
-    const btn = document.createElement('div');
-    btn.className = 'color-button ' + color;
-    panel.appendChild(btn);
-    btn.addEventListener('click', () => {
-      if (color === 'red') nextPuzzle(); else flashError('puzzle8');
+  const sequence = ['red','blue','green','green','yellow','red'];
+  const seqContainer = document.getElementById('puzzle8-sequence');
+  const gridContainer = document.getElementById('puzzle8-grid');
+  const unlockBtn = document.getElementById('puzzle8-unlock');
+  // clear any existing
+  seqContainer.innerHTML = '';
+  gridContainer.innerHTML = '';
+  // single blinking sequence light
+  const seqLight = document.createElement('div');
+  seqLight.className = 'sequence-light';
+  seqContainer.appendChild(seqLight);
+  // play sequence one color at a time
+  let step = 0;
+  function playNext() {
+    if (step > 0) seqLight.classList.remove('active');
+    if (step < sequence.length) {
+      seqLight.style.background = sequence[step];
+      seqLight.classList.add('active');
+      setTimeout(() => { step++; playNext(); }, 1000);
+    } else {
+      // end: turn off highlight and replay after 5s
+      seqLight.classList.remove('active');
+      setTimeout(() => { step = 0; playNext(); }, 5000);
+    }
+  }
+  playNext();
+  // prepare grid selection
+  const colors = ['red','green','blue','yellow'];
+  const selection = Array(sequence.length).fill(null);
+  for (let row = 0; row < sequence.length; row++) {
+    // shuffle colors per row
+    const rowColors = colors.slice().sort(() => Math.random() - 0.5);
+    rowColors.forEach(color => {
+      const el = document.createElement('div');
+      el.className = 'grid-light';
+      el.dataset.row = row;
+      el.dataset.color = color;
+      el.style.background = color;
+      el.addEventListener('click', () => {
+        // only one per row
+        document.querySelectorAll(`#puzzle8-grid .grid-light[data-row="${row}"]`).forEach(e => e.classList.remove('selected'));
+        el.classList.add('selected');
+        selection[row] = color;
+      });
+      gridContainer.appendChild(el);
     });
+  }
+  // unlock validation
+  unlockBtn.addEventListener('click', () => {
+    const correct = selection.every((col, i) => col === sequence[i]);
+    if (correct) nextPuzzle(); else flashError('puzzle8');
   });
 }
 

@@ -103,17 +103,17 @@ Spilleren må løse 3 ulike oppgaver før de går videre. Lag de to andre med pa
 
 ### **6. Kombinasjonslås fra historisk info (Kunnskap)**
 
-**Scenario**: Lås som krever tre tall, hint:
+**Scenario**: Lås som krever fire tall, hint:
 
 - Første mennesket på månen – siste siffer i årstall
 - Norges frigjøringsår - 2 siste siffer
-- Antall kontinenter
+- Antall kontinenter - ett siffer
 
 **Løsning**: 9 (1969), 1945, 7\
 → Kombinasjon: `9-45-7`
 
-**Interaksjon**: Tre tallfelter\
-**Hint**: "Historietime! - eller Google \:D"
+**Interaksjon**: Ett tallfelt\
+**Hint**: "Historietime! - eller Google :D"
 
 ---
 

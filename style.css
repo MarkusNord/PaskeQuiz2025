@@ -27,7 +27,7 @@ body { margin: 0; padding: 0; font-family: sans-serif; background: #f9f9f9; colo
   0%, 100% { transform: rotate(-5deg); }
   50% { transform: rotate(5deg); }
 }
-#username-input, #puzzle5-input, #puzzle1-input, #puzzle9-input {
+#username-input, #puzzle5-input, #puzzle1-input, #puzzle9-input, #puzzle6-input {
   padding: 10px;
   font-size: 16px;
   margin: 10px 0;
@@ -89,6 +89,31 @@ body { margin: 0; padding: 0; font-family: sans-serif; background: #f9f9f9; colo
   font-size: 2em;
   text-align: center;
   margin: 20px 0;
+}
+
+/* Puzzle 7: Hidden item overlay */
+.zoom-container { position: relative; width: 100%; }
+#puzzle7-image { width: 100%; height: auto; display: block; }
+.puzzle7-icon { position: absolute; width: 15%; cursor: pointer; }
+.puzzle7-icon.selected { outline: 3px solid red; border-radius: 4px; }
+
+/* Puzzle 8: Sequence display */
+#puzzle8-sequence { display: flex; justify-content: space-around; margin: 20px 0; }
+.sequence-light { width: 80px; height: 80px; border-radius: 50%; background: grey; opacity: 0.3; transition: opacity 0.3s; }
+.sequence-light.active { opacity: 1; }
+
+/* Puzzle 8: Grid lights */
+.grid-light { width: 50px; height: 50px; border-radius: 50%; cursor: pointer; border: 1px solid #333; }
+.grid-light.selected { outline: 3px solid #000; }
+
+/* Puzzle 8: Grid layout */
+#puzzle8-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 50px);
+  grid-template-rows: repeat(6, 50px);
+  grid-gap: 10px;
+  margin: 20px auto;
+  width: max-content;
 }
 
 /* End screen */

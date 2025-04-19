@@ -15,7 +15,7 @@
     <button id="start-btn">Start</button>
   </section>
   <header id="game-header" class="hidden">
-    <span id="player-name"></span>, oppgave <span id="progress"></span>/10
+    <span id="player-name"></span><span id="progress"></span>
   </header>
   <div id="app" class="hidden">
     <!-- Puzzle 1 -->
@@ -60,8 +60,8 @@
           <div class="component" draggable="true" data-comp="switch">🔲 Bryter</div>
           <div class="component" draggable="true" data-comp="bulb">💡 Lyspære</div>
           <div class="component" draggable="true" data-comp="resistor">Ω Motstand</div>
-          <div class="component dummy" draggable="true" data-comp="fake1">❌ Defekt</div>
-          <div class="component dummy" draggable="true" data-comp="fake2">⚡ Defekt</div>
+          <div class="component dummy" draggable="true" data-comp="fake1">❌ Duppedings</div>
+          <div class="component dummy" draggable="true" data-comp="fake2">⚡ Elektrisk sak</div>
         </div>
         <div class="circuit-board">
           <div class="slot" data-slot="battery-slot">?</div>
@@ -82,33 +82,37 @@
       <input type="text" id="puzzle5-input" maxlength="3" placeholder="Svar">
       <button id="puzzle5-unlock">Unlock</button>
       <div id="puzzle5-hint" class="hint hidden">
-        Alfabettabell vises
         <img src="assets/images/International_Morse_Code.svg" alt="Morse code chart">
       </div>
     </section>
     <!-- Puzzle 6 -->
     <section id="puzzle6" class="puzzle">
-      <h1>Puzzle 6: Kombinasjonslås</h1>
-      <div class="dial-container"></div>
+      <h1>Puzzle 6: Historietime!</h1>
+      <p>1. Når landet det første mennesket på månen? – siste siffer i årstall
+        <p>2. Norges frigjøringsår etter andre verdenskrig - 2 siste siffer</p>
+        <p>3. Antall kontinenter - ett siffer</p>
+      <input type="text" id="puzzle6-input" maxlength="4" placeholder="Kode">
       <button id="puzzle6-unlock">Unlock</button>
-      <div id="puzzle6-hint" class="hint hidden">Historietime! - eller Google :D</div>
+      <div id="puzzle6-hint" class="hint hidden">... eller Google :D</div>
     </section>
     <!-- Puzzle 7 -->
     <section id="puzzle7" class="puzzle">
       <h1>Puzzle 7: Skjulte elementer</h1>
+      <p>“Alt som skjedde den påskeaften, finnes fortsatt her. Jeg prøvde å ringe. Han svarte aldri. Døren var låst, og da jeg endelig kom inn fant jeg mordvåpenet. Se nøye. Tre ting hører til historien.”</p>
       <div class="zoom-container">
         <img src="assets/images/Room.png" alt="Rom" id="puzzle7-image">
       </div>
-      <input type="text" id="puzzle7-unlock" placeholder="Kode">
+      <p></p>
       <button id="puzzle7-unlock-btn">Unlock</button>
-      <div id="puzzle7-hint" class="hint hidden">Let i nærheten av døren …</div>
+      <div id="puzzle7-hint" class="hint hidden">Velg tre ting og trykk unlock …</div>
     </section>
     <!-- Puzzle 8 -->
     <section id="puzzle8" class="puzzle">
-      <h1>Puzzle 8: Fargebasert rekkefølge</h1>
-      <div class="color-panel"></div>
+      <h1>Puzzle 8: Kodesekvens</h1>
+      <div id="puzzle8-sequence" class="sequence-display"></div>
+      <div id="puzzle8-grid"></div>
       <button id="puzzle8-unlock">Unlock</button>
-      <div id="puzzle8-hint" class="hint hidden">Finn det skjulte rotasjonsmønsteret</div>
+      <div id="puzzle8-hint" class="hint hidden">Sett sekvensen for å låse opp</div>
     </section>
     <!-- Puzzle 9 -->
     <section id="puzzle9" class="puzzle">
