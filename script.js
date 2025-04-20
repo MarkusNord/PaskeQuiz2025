@@ -15,7 +15,7 @@ function saveState() {
 
 function updateHeader() {
   document.getElementById('player-name').textContent = username;
-  document.getElementById('progress').textContent = (progress + 1) + '/' + puzzles.length;
+  document.getElementById('progress').textContent = (current + 1) + '/' + puzzles.length;
 }
 
 // helper to format seconds as MM:SS
@@ -449,6 +449,44 @@ function initPuzzle9() {
     'Command aborted',
     'I/O error'
   ];
+
+  const påskemysterierContent = `
+00000000  4A 61 67 20 2D 20 30 78 34 45 3A 20 75 6E 6C 6F  |Jag - 0x4E: unlo|
+00000010  63 6B 2E 2E 2E 20 77 72 6F 6E 67 20 63 68 75 6E  |ck... wrong chun|
+00000020  6B 3F 20 43 61 6C 6C 20 50 2E 48 61 72 65 20 64  |k? Call P.Hare d|
+00000030  69 72 65 63 74 6C 79 2E 2E 0A 00 45 67 67 40 2F  |irectly...␀Egg@/|
+00000040  2F 74 65 6D 70 2F 3F 62 72 6B 5F 66 2E 6C 69 6E  |/temp/?brk_f.lin|
+00000050  6B 20 66 61 69 6C 65 64 3A 20 74 69 6D 65 6F 75  |k failed: timeou|
+00000060  74 5F 30 78 30 41 36 20 5B 72 65 74 72 79 5D 2E  |t_0x0A6 [retry].|
+00000070  2E 2E 2F 73 65 63 72 65 74 73 2F 65 67 67 2E 62  |../secrets/egg.b|
+00000080  69 6E 20 66 6C 61 67 3A 20 30 78 35 32 34 31 0A  |in flag: 0x5241.|
+00000090  00 00 00 00 00 5B 65 78 69 74 5D 0A              |.....[exit].|
+`;
+
+  const hvor_er_påskeeggetContent = `Access Denied`;
+
+  const sommerferieplanerContent = 
+  `SOMMERFERIEPLANER 2025 – reiseutkast
+
+• Uke 27–28: Peru / Machu Picchu – har alltid hatt lyst å reise hit.
+→ sjekke tog fra Cusco + høydejustering (!)
+
+• Uke 29: Tokyo – hvis vi får billetter med poeng.  
+→ Ghibli-museet? TeamLab? Inari-tempelet i Kyoto hvis tid.
+
+• Uke 30: Safari i Namibia – evt. gjennom reisebyrå i Windhoek.  
+→ husk gulfebervaksine + adaptere
+
+• Uke 31: Reserveuke (og jetlag). Mulig helg i Berlin hvis vi ikke er lei av flyplasser.
+
+TODO:
+– Sjekke passdatoer  
+– Bestille reisevaksiner (senest mai)  
+– Kjøpe lettere bagasje  
+– Lære litt japansk? (“Unnskyld, hvor er togstasjonen?”)
+
+NB: Si til pappa at vi ikke rekker hytta i år. `;
+
   const accessContent = `# SYSTEM ACCESS FILE – DO NOT MODIFY
 >> bootload.sys -> OK  
 >> stream integrity: DEGRADATED  
@@ -463,44 +501,68 @@ heartbeat_timeout = 24ms
 file_shadow[2].tmp → ←∑r4e1  
 last_known: proxy54//ECHO  
 
-[WARNING] unauthorized query @ gate-4  
-> p.i.n.   // unrelated comment  
->    5     // hex parsing failed  
->      2   // char shift >>3  
->        4 // keep alive ping
->          1 // <<–– OVERFLOW_MARK
+[CORE ALERT] :: unauthorized query @ gate-4  
+:: audit.log initiated → /mem/watch/524x  
+> push.p · i · n : // override ?   
+> [05] :: overflow ∆catch (ref: eth42)  
+> [02] :: shift ⤵ ⤴ char_mask $03F2  
+> [44] :: keepAlive.packet ✓ ok  
+> [41] :: timeout_suppress ←↑  
+Δ: handler interrupt ACK received  
+@traceback → stackframe: [p—5—2—4—1]  
+safety_override: FAIL  
+payload_status: ⚠︎ UNRESOLVED  
 
 logchain://reset_handler (UNSTABLE)
 --- END SECTOR ---`;
+
   function resetTerminal() {
     term.textContent = files.join('\n');
   }
   resetTerminal();
+
+  // helper to process terminal commands case-insensitively
+  function handleTerminalCommand(cmd) {
+    const m = cmd.match(/^open\s+(.+)$/i);
+    if (m) {
+      const file = m[1].toLowerCase();
+      switch (file) {
+        case 'access.txt':
+          term.textContent = accessContent; break;
+        case 'påskemysterier.txt':
+          term.textContent = påskemysterierContent; break;
+        case 'sommerferieplaner.doc':
+          term.textContent = sommerferieplanerContent; break;
+        case 'hvor_er_påskeegget.hemmelig':
+          term.textContent = hvor_er_påskeeggetContent; break;
+        default:
+          const err = errorMessages[Math.floor(Math.random() * errorMessages.length)];
+          term.textContent = err;
+          setTimeout(resetTerminal, 1500);
+      }
+    } else {
+      const err = errorMessages[Math.floor(Math.random() * errorMessages.length)];
+      term.textContent = err;
+      setTimeout(resetTerminal, 1500);
+    }
+  }
+
+  // replace keydown listener logic
   terminalInput.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
       const cmd = terminalInput.value.trim();
       terminalInput.value = '';
-      if (cmd === 'open access.txt') {
-        term.textContent = accessContent;
-      } else {
-        const msg = errorMessages[Math.floor(Math.random() * errorMessages.length)];
-        term.textContent = msg;
-        setTimeout(resetTerminal, 1500);
-      }
+      handleTerminalCommand(cmd);
     }
   });
-  // Enter button click triggers the same command logic
+
+  // replace click listener logic
   document.getElementById('terminal-enter').addEventListener('click', () => {
     const cmd = terminalInput.value.trim();
     terminalInput.value = '';
-    if (cmd === 'open access.txt') {
-      term.textContent = accessContent;
-    } else {
-      const msg = errorMessages[Math.floor(Math.random() * errorMessages.length)];
-      term.textContent = msg;
-      setTimeout(resetTerminal, 1500);
-    }
+    handleTerminalCommand(cmd);
   });
+
   document.getElementById('puzzle9-unlock').addEventListener('click', () => {
     const pin = document.getElementById('puzzle9-input').value.trim();
     if (pin === '5241') nextPuzzle(); else flashError('puzzle9');
