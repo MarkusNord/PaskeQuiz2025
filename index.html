@@ -67,8 +67,8 @@
     <section id="puzzle3" class="puzzle">
       <h1>Puzzle 3: Kart med koordinater</h1>
       <p>1. Hva heter hovedstaden i Jordan og hvor mange bøker er det i Harry Potter-serien?</p>
-      <p>2. Hva heter hovedstaden i Tyskland og hvor mange bøker er det i Ringenes Herre-serien?</p>
-      <p>3. Hva heter hovedstaden i Sierra Leone og hvor mange bøker er det i Kattekrigerne-serien?</p>
+      <p>2. Hva heter nasjonen som består av over 700 øyer i Karibia, med hovedstad Nassau. Og hvor mange hoder har Cerberus i gresk mytologi?</p>
+      <p>3. Hva heter øygruppen som har Tórshavn som hovedstad og hvor Infinity Stones er det i Marvel-universet?</p>
       <div class="grid-container" id="puzzle3-grid"></div>
       <button id="puzzle3-unlock">Unlock</button>
       <div id="puzzle3-hint" class="hint hidden">Hint: Første bokstav + ...</div>
@@ -82,21 +82,26 @@
     <section id="puzzle4" class="puzzle">
       <h1>Puzzle 4: Elektrisk krets</h1>
       <div class="circuit-container">
-        <div class="toolbox">
-          <div class="component" draggable="true" data-comp="switch">🔲 Bryter</div>
-          <div class="component" draggable="true" data-comp="bulb">💡 Lyspære</div>
-          <div class="component" draggable="true" data-comp="resistor">Ω Motstand</div>
-          <div class="component dummy" draggable="true" data-comp="fake1">❌ Duppedings</div>
-          <div class="component" draggable="true" data-comp="battery">🔋 Batteri</div>
-          <div class="component dummy" draggable="true" data-comp="fake2">⚡ Elektrisk sak</div>
-        </div>
         <div class="circuit-board">
-          <div class="slot" data-slot="battery-slot">?</div>
-          <div class="slot" data-slot="switch-slot">?</div>
-          <div class="slot" data-slot="resistor-slot">?</div>
-          <div class="slot" data-slot="bulb-slot">?</div>
+          <svg class="wire-svg" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 10 H390" stroke="#333" stroke-width="4" fill="none" />
+            <path d="M390 10 V190" stroke="#333" stroke-width="4" fill="none" />
+            <path d="M390 190 H10" stroke="#333" stroke-width="4" fill="none" />
+            <path d="M10 190 V10" stroke="#333" stroke-width="4" fill="none" />
+          </svg>
+          <div class="slot switch-slot" data-slot="switch-slot">?</div>
+          <div class="slot resistor-slot" data-slot="resistor-slot">?</div>
+          <div class="slot battery-slot" data-slot="battery-slot">?</div>
+          <div class="slot bulb-slot" data-slot="bulb-slot">?</div>
         </div>
-        <p class="instruction">Plasser komponentene i riktig rekkefølge, fra topp til bunn</p>
+        <div class="toolbox">
+          <div class="component" draggable="true" data-comp="battery">🔋 Batteri</div>
+          <div class="component" draggable="true" data-comp="switch">🔲 Bryter</div>
+          <div class="component" draggable="true" data-comp="resistor">Ω Motstand</div>
+          <div class="component" draggable="true" data-comp="wire">〰️ Ledning</div>
+          <div class="component" draggable="true" data-comp="bulb">💡 Lyspære</div>
+          <div class="component dummy" draggable="true" data-comp="fake1">❌ Duppedings</div>
+        </div>
         <div id="puzzle4-uv" class="uv-message hidden">✨ Skjult melding: “Søket fortsetter…” ✨</div>
       </div>
       <button id="puzzle4-unlock">Test krets</button>
@@ -127,20 +132,20 @@
       <h1>Puzzle 6: Historietime!</h1>
       <p>1. Når landet det første mennesket på månen? – siste siffer i årstall</p>
       <p>2. Norges frigjøringsår – 2 siste siffer</p>
-      <p>3. Antall kontinenter – ett siffer</p>
+      <p>3. Antall kontinenter (etter den Europeiske modellen) – ett siffer</p>
       <input type="text" id="puzzle6-input" maxlength="4" placeholder="Kode">
       <button id="puzzle6-unlock">Unlock</button>
       <div id="puzzle6-hint" class="hint hidden">Hint: ... eller Google</div>
     </section>
     <!-- Story 7 -->
     <section id="story7" class="story hidden">
-      <div class="story-text" data-text="I boksen finner du nøkkelen til neste rom. Du låser opp døren og trer inn i et støvete rom. Det lukter voks og gammelt sjokoladepapir. På veggen henger en tavle med tråder og bilder, og på bordet et halvspist egg. Rundt om kring i rommet ligger en rekke gjenstander og en utrevet notatbokside. “Jeg fulgte ledetrådene. Jeg var så nær. Da jeg endelig kom hit, var døren låst. Nøkkelen passet ikke. Jeg vet ikke hvorfor ... Desperat ringte jeg etter hjelp, igjen og igjen, men ingen svarte. Alt var stille. For stille. Jeg vet at jeg er nær. Jeg vet at Det Legendariske Påskeegget er her. Jeg er ikke gal.“ På hjørnet av skrivebordet er det risset inn: “Så nær!“. Du må finne tre riktige symboler i rommet som forklarer hva som skjedde."></div>
+      <div class="story-text" data-text="I boksen finner du nøkkelen til neste rom. Du låser opp døren og trer inn i et støvete rom. Det lukter voks og gammelt sjokoladepapir. På veggen henger en tavle med tråder og bilder, og på bordet et halvspist egg. Rundt om kring i rommet ligger en rekke gjenstander og en utrevet dagbokside. “Påskeaften, 1953. Jeg fulgte ledetrådene. Jeg var så nær. Da jeg endelig kom hit, var døren låst. Nøkkelen passet ikke. Jeg vet ikke hvorfor ... Desperat ringte jeg etter hjelp, igjen og igjen, men ingen svarte. Alt var stille. For stille. Jeg vet at jeg er nær. Jeg vet at Det Legendariske Påskeegget er her. Jeg er ikke gal.“ På hjørnet av skrivebordet er det risset inn: “Så nær!“. Du må finne tre riktige symboler i rommet som forklarer hva som skjedde."></div>
       <button id="story7-next" class="next-btn">Neste</button>
     </section>
     <!-- Puzzle 7 -->
     <section id="puzzle7" class="puzzle">
       <h1>Puzzle 7: Skjulte elementer</h1>
-      <p>“Jeg fulgte ledetrådene. Jeg var så nær. Da jeg endelig kom hit, var døren låst. Nøkkelen passet ikke. Jeg vet ikke hvorfor ... Desperat ringte jeg etter hjelp, igjen og igjen, men ingen svarte. Alt var stille. For stille. Jeg vet at jeg er nær. Jeg vet at Det Legendariske Påskeegget er her. Jeg er ikke gal.“ På hjørnet av skrivebordet er det risset inn: “Så nær!“.</p>
+      <p>“Påskeaften, 1953. Jeg fulgte ledetrådene. Jeg var så nær. Da jeg endelig kom hit, var døren låst. Nøkkelen passet ikke. Jeg vet ikke hvorfor ... Desperat ringte jeg etter hjelp, igjen og igjen, men ingen svarte. Alt var stille. For stille. Jeg vet at jeg er nær. Jeg vet at Det Legendariske Påskeegget er her. Jeg er ikke gal.“ På hjørnet av skrivebordet er det risset inn: “Så nær!“.</p>
       <div class="zoom-container">
         <img src="assets/images/Room.png" alt="Rom" id="puzzle7-image">
       </div>

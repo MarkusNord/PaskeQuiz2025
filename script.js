@@ -240,47 +240,85 @@ function initPuzzle3() {
   });
 }
 
-// Puzzle 4: Circuit logic
+// Puzzle 4: Elektrisk krets (updated logic)
 function initPuzzle4() {
   const slots = {};
   let switchOn = false;
-  // drag start for components
+
+  // drag components
   document.querySelectorAll('#puzzle4 .component').forEach(el => {
-    el.addEventListener('dragstart', e => e.dataTransfer.setData('text/plain', el.dataset.comp));
+    el.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', el.dataset.comp);
+    });
   });
-  // slots accept drops
+
+  // setup slots
   document.querySelectorAll('#puzzle4 .slot').forEach(slot => {
+    slot.textContent = '?';
     slot.addEventListener('dragover', e => e.preventDefault());
     slot.addEventListener('drop', e => {
       e.preventDefault();
       const comp = e.dataTransfer.getData('text/plain');
-      const compEl = document.querySelector(`#puzzle4 .component[data-comp="${comp}"]`);
-      if (compEl) {
+      const template = document.querySelector(`#puzzle4 .component[data-comp="${comp}"]`);
+      if (template) {
+        const clone = template.cloneNode(true);
+        // reset clone events and styles
+        clone.style.cursor = 'default';
+        // clear existing slot content and add clone
         slot.textContent = '';
-        slot.appendChild(compEl);
+        slot.appendChild(clone);
         slots[slot.dataset.slot] = comp;
+        // if it's a switch component, enable click on the clone to toggle power
+        if (comp === 'switch') {
+          clone.style.cursor = 'pointer';
+          // only allow toggling power on the correct switch slot
+          if (slot.dataset.slot === 'switch-slot') {
+            clone.addEventListener('click', togglePower);
+          }
+        }
       }
     });
   });
-  // clicking switch toggles power only when all components placed
-  const switchSlot = document.querySelector('#puzzle4 .slot[data-slot="switch-slot"]');
-  switchSlot.style.cursor = 'pointer';
-  switchSlot.addEventListener('click', () => {
-    // require battery, resistor, bulb placed first
-    if (!slots['battery-slot'] || !slots['resistor-slot'] || !slots['bulb-slot']) {
+
+  function togglePower() {
+    // clear previous visual states
+    ['switch-slot','resistor-slot'].forEach(name => {
+      document.querySelector(`#puzzle4 .slot[data-slot="${name}"]`).classList.remove('on');
+    });
+    const bulbSlot = document.querySelector('#puzzle4 .slot[data-slot="bulb-slot"]');
+    bulbSlot.classList.remove('bulb-on','explode');
+
+    // require battery, bulb and switch placed
+    if (!slots['battery-slot'] || !slots['bulb-slot'] || !(slots['switch-slot']==='switch' || slots['resistor-slot']==='switch')) {
       flashError('puzzle4');
       return;
     }
     switchOn = !switchOn;
-    switchSlot.classList.toggle('on', switchOn);
-  });
+
+    // highlight switch container
+    ['switch-slot','resistor-slot'].forEach(name => {
+      const el = document.querySelector(`#puzzle4 .slot[data-slot="${name}"]`);
+      if (slots[name] === 'switch' && switchOn) el.classList.add('on');
+    });
+
+    if (switchOn) {
+      const hasWire = ['switch-slot','resistor-slot'].some(key => slots[key]==='wire');
+      if (hasWire) {
+        bulbSlot.classList.add('explode');
+      } else {
+        bulbSlot.classList.add('bulb-on');
+      }
+    }
+  }
+
   // test circuit button
   document.getElementById('puzzle4-unlock').addEventListener('click', () => {
-    const correct = slots['battery-slot']==='battery'
-                  && slots['switch-slot']==='switch'
-                  && slots['resistor-slot']==='resistor'
-                  && slots['bulb-slot']==='bulb';
-    if (correct && switchOn) {
+    const hasBattery = slots['battery-slot']==='battery';
+    const hasBulb = slots['bulb-slot']==='bulb';
+    const hasSwitch = (slots['switch-slot']==='switch' || slots['resistor-slot']==='switch');
+    const hasResistor = (slots['switch-slot']==='resistor' || slots['resistor-slot']==='resistor');
+    const exploded = !!document.querySelector('#puzzle4 .slot.explode');
+    if (hasBattery && hasBulb && hasSwitch && hasResistor && switchOn && !exploded) {
       document.getElementById('puzzle4-uv').classList.remove('hidden');
       setTimeout(() => nextPuzzle(), 1000);
     } else {
@@ -317,7 +355,7 @@ function initPuzzle5() {
 function initPuzzle6() {
   document.getElementById('puzzle6-unlock').addEventListener('click', () => {
     const val = document.getElementById('puzzle6-input').value.trim();
-    if (val === '9457') nextPuzzle(); else flashError('puzzle6');
+    if (val === '9456') nextPuzzle(); else flashError('puzzle6');
   });
 }
 

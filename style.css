@@ -83,13 +83,84 @@ body { margin: 0; padding: 0; font-family: sans-serif; background: #f9f9f9; colo
 .puzzle-image { width: 25%; height: auto; display: block; margin: 20px auto; }
 
 /* Puzzle 4: Elektrisk krets */
-.circuit-container { display: flex; gap: 1rem; align-items: flex-start; margin: 20px 0; }
-.toolbox { border: 1px solid #333; padding: 10px; min-width: 100px; background: #fff; }
-.component { margin: 5px; padding: 5px; background: #ffd; cursor: grab; text-align: center; }
+#puzzle4 .circuit-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 20px 0;
+}
+.toolbox {
+  border: 1px solid #333;
+  padding: 10px;
+  background: #fff;
+  width: 400px;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 5px;
+}
+.component {
+  margin: 0;
+  padding: 3px;
+  width: 100px;
+  height: 40px;
+  background: #ffd;
+  cursor: grab;
+  text-align: center;
+}
 .component.dummy { opacity: 0.5; }
-.circuit-board { border: 1px solid #333; padding: 10px; background: #eef; min-width: 150px; display: flex; flex-direction: column; gap: 10px; }
-.slot { height: 50px; border: 1px dashed #666; display: flex; align-items: center; justify-content: center; background: #fff; }
-.slot.on { background: #cfc; }
+#puzzle4 .circuit-board {
+  position: relative;
+  width: 400px;
+  height: 200px;
+  padding: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+#puzzle4 .wire-svg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+#puzzle4 .circuit-board::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: none;
+  border-radius: 8px;
+  z-index: 1;
+  pointer-events: none;
+}
+#puzzle4 .slot {
+  position: absolute;
+  width: 120px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  background: #fff;
+  border: 2px solid #333;
+  border-radius: 4px;
+  z-index: 2;
+  pointer-events: auto;
+}
+#puzzle4 .slot.on { background: green; }
+#puzzle4 .slot.explode { background: #f00; color: #fff; animation: explode 0.5s forwards; }
+#puzzle4 .slot.bulb-on { background: yellow; }
+#puzzle4 .battery-slot { left: -60px; top: 70px; }
+#puzzle4 .switch-slot { left: 51px; top: -20px}
+#puzzle4 .resistor-slot { left: 220px; top: -20px; }
+#puzzle4 .bulb-slot { left: 319px; top: 70px; }
+@keyframes explode {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
 .uv-message { margin-top: 10px; padding: 10px; background: #000; color: #0f0; font-family: monospace; text-align: center; animation: glow 1s infinite alternate; }
 @keyframes glow { from { text-shadow: 0 0 5px #0f0; } to { text-shadow: 0 0 20px #0f0; } }
 
@@ -168,7 +239,6 @@ body { margin: 0; padding: 0; font-family: sans-serif; background: #f9f9f9; colo
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  /* Enhanced visibility */
   background-color: #ffd700;
   color: #333;
   border: 2px solid #333;
