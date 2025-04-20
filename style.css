@@ -161,6 +161,25 @@ body { margin: 0; padding: 0; font-family: sans-serif; background: #f9f9f9; colo
   0% { transform: scale(1); opacity: 1; }
   100% { transform: scale(1.5); opacity: 0; }
 }
+
+/* Battery polarity indicators */
+#puzzle4 .battery-slot::before {
+  content: "+";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+}
+#puzzle4 .battery-slot::after {
+  content: "-";
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+}
+
 .uv-message { margin-top: 10px; padding: 10px; background: #000; color: #0f0; font-family: monospace; text-align: center; animation: glow 1s infinite alternate; }
 @keyframes glow { from { text-shadow: 0 0 5px #0f0; } to { text-shadow: 0 0 20px #0f0; } }
 
