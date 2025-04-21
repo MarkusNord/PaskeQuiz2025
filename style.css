@@ -234,8 +234,8 @@ body { margin: 0; padding: 0; font-family: sans-serif; background: #f9f9f9; colo
 /* Story pages */
 .story {
   display: none;
-  background: url("assets/images/letter.png") center/cover no-repeat;
-  background-size: cover;
+  background: url("assets/images/letter.png") center center/contain no-repeat;
+  background-size: contain;
   padding: 40px 20px;
   box-sizing: border-box;
   min-height: calc(100vh - 60px);
@@ -252,7 +252,7 @@ body { margin: 0; padding: 0; font-family: sans-serif; background: #f9f9f9; colo
 }
 .next-btn {
   position: absolute;
-  bottom: 20px;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
   padding: 10px 20px;
